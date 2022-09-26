@@ -200,6 +200,7 @@
             
                 // Set up our request
                 XHR.open("POST", "https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8");
+                XHR.setRequestHeader('Access-Control-Allow-Origin', '*');
             
                 // The data sent is what the user provided in the form
                 XHR.send(FD);
@@ -219,3 +220,6 @@
           });
     </script>
 </html>
+    
+    
+   
