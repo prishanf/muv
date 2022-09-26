@@ -110,7 +110,7 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="container">
-        <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST">
+        <form id="myForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST">
     
             <input type=hidden name='captcha_settings' value='{"keyname":"reCAPTCHA_V2","fallback":"true","orgId":"00D7F000000phjY","ts":""}'>
             <input type=hidden name="oid" value="00D7F000000phjY">
@@ -125,13 +125,13 @@
             <ul>
                 <li>
                 <label for="first_name"><span>First Name</span></label>
-                <input  id="first_name" maxlength="40" name="first_name" size="20" type="text" />
+                <input  id="first_name" maxlength="40" name="Name" size="20" type="text" />
             </li>
             <li>
                 <label for="last_name"><span>Last Name</span></label><input  id="last_name" maxlength="80" name="last_name" size="20" type="text" />
             </li>
             <li>
-             <label for="email"><span>Email</span></label><input  id="email" maxlength="80" name="email" size="20" type="email" />
+             <label for="email"><span>Email</span></label><input  id="email" maxlength="80" name="Email" size="20" type="email" />
             </li>
             <li>
                 <label for="phone"><span>Phone</span></label>
@@ -156,5 +156,66 @@
             console.log(sourceValue);
             sourceElement.value = sourceValue;
         }
-        </script>
+        window.addEventListener("load", () => {
+            const form = document.getElementById("myForm");
+
+            function sendDataGoogleSheet() {
+              const XHR = new XMLHttpRequest();
+          
+              // Bind the FormData object and the form element
+              const FD = new FormData(form);
+          
+              // Define what happens on successful data submission
+              XHR.addEventListener("load", (event) => {
+                console.log(event.target.responseText);
+              });
+          
+              // Define what happens in case of error
+              XHR.addEventListener("error", (event) => {
+                alert('Oops! Something went wrong.');
+              });
+          
+              // Set up our request
+              XHR.open("POST", "https://script.google.com/macros/s/AKfycbxxYNCJfKgZ_CMlw-sYzU_A1fb9fWbJBaTBnEE0DDLyuehZqnVFYHdEBby0o-U-0_OB/exec");
+          
+              // The data sent is what the user provided in the form
+              XHR.send(FD);
+            }
+
+            function sendDataSF() {
+                const XHR = new XMLHttpRequest();
+            
+                // Bind the FormData object and the form element
+                const FD = new FormData(form);
+            
+                // Define what happens on successful data submission
+                XHR.addEventListener("load", (event) => {
+                    console.log(event.target.responseText);
+                });
+            
+                // Define what happens in case of error
+                XHR.addEventListener("error", (event) => {
+                  alert('Oops! Something went wrong.');
+                });
+            
+                // Set up our request
+                XHR.open("POST", "https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8");
+            
+                // The data sent is what the user provided in the form
+                XHR.send(FD);
+              }
+          
+            // Get the form element
+            
+          
+            // Add 'submit' event handler
+            form.addEventListener("submit", (event) => {
+              event.preventDefault();
+                console.log('Sending Data.. to Google Sheet');
+                sendDataGoogleSheet();
+                console.log('Sending Data.. to SF');
+                sendDataSF();
+            });
+          });
+    </script>
 </html>
