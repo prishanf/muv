@@ -184,6 +184,7 @@
               // Define what happens on successful data submission
               XHR.addEventListener("load", (event) => {
                 console.log(event.target.responseText);
+                form.submit();
               });
               // Define what happens in case of error
               XHR.addEventListener("error", (event) => {
@@ -208,7 +209,7 @@
                         isRequired(email.value.trim()) && isRequired(phone.value.trim());
                 if(valid){
                     sendDataGoogleSheet();
-                    form.submit();
+                   
                 }else{
                     alert("Please complete the required Fields")
                 }
