@@ -21,8 +21,11 @@
                     rgba(0, 41, 255, 0) 100%
                 );
             }
-            h2,h4{
+            h2{
                 color: rgba(19, 124, 65);
+            }
+            h4{
+                color: #fc4366;
             }
             label,
             input,
@@ -49,17 +52,10 @@
                 text-transform: uppercase;
                 font-family: 'Roboto', sans-serif;
             }
-            input[type="submit"] {
-                background: rgba(19, 124, 65);
-                color: white;
-                font-weight: 700;
-                font-size: 1rem;
-                border-radius: 5px;
-                margin-top: 1.1em;
-            }
+            
             
             .container {
-                width: 600px;
+                width:480px;
                 margin: 5em auto;
             }
             form {
@@ -95,11 +91,25 @@
                 line-height: 29px;
                 line-height: 2rem;
             }
+            input[type="submit"] {
+                padding: 9px 20px;
+                background: rgba(19, 124, 65);
+                color: white;
+                font-weight: 700;
+                font-size: 1.2rem;
+                border-radius: 5px;
+                margin-top: 1.3em;
+            }
             
         </style>
         <script src="https://www.google.com/recaptcha/api.js"></script>
         <script>
-        function timestamp() { var response = document.getElementById("g-recaptcha-response"); if (response == null || response.value.trim() == "") {var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);elems["ts"] = JSON.stringify(new Date().getTime());document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems); } } setInterval(timestamp, 500); 
+        function timestamp() { var response = document.getElementById("g-recaptcha-response"); 
+            if (response == null || response.value.trim() == "") {
+                var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);
+                elems["ts"] = JSON.stringify(new Date().getTime());
+                document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems);
+             } } setInterval(timestamp, 500); 
         </script>
     </head>
     <body>
