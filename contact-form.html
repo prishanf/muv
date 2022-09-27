@@ -1,9 +1,3 @@
-
-<!--  ----------------------------------------------------------------------  -->
-<!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
-<!--  If necessary, please modify the charset parameter to specify the        -->
-<!--  character set of your HTML page.                                        -->
-<!--  ----------------------------------------------------------------------  -->
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -28,7 +22,7 @@
                 );
             }
             h2,h4{
-                color: #fc4366;
+                color: rgba(19, 124, 65);
             }
             label,
             input,
@@ -43,7 +37,7 @@
             }
             
             li {
-                padding: 0.3em;
+                padding: 0.1em;
             }
             span {
                 font-weight: 700;
@@ -56,12 +50,12 @@
                 font-family: 'Roboto', sans-serif;
             }
             input[type="submit"] {
-                background: #fc4366;
+                background: rgba(19, 124, 65);
                 color: white;
                 font-weight: 700;
-                font-size: 1.2rem;
+                font-size: 1rem;
                 border-radius: 5px;
-                margin-top: 1.3em;
+                margin-top: 1.1em;
             }
             
             .container {
@@ -86,16 +80,16 @@
             input,
             textarea {
                 width: 100%;
-                padding: 9px 20px;
+                padding: 2px 20px;
                 border: 1px solid #e1e2eb;
                 background-color: #fff;
                 color: #102a43;
                 caret-color: #829ab1;
                 box-sizing: border-box;
-                font-size: 14px;
+                font-size: 12px;
                 font-size: 1rem;
-                line-height: 29px;
-                line-height: 2rem;
+                line-height: 25px;
+                line-height: 1.5rem;
                 box-shadow: inset 0 2px 4px 0 rgba(206, 209, 224, 0.2);
                 border-radius: 3px;
                 line-height: 29px;
@@ -122,12 +116,6 @@
             <input type=hidden name="oid" value="00D7F000000phjY">
             <input type=hidden name="retURL" value="https://prishanf.github.io/muv/contact-thankyou.html">
             <input type=hidden name="Source__c" value="Web" id="source">
-            <!--  ----------------------------------------------------------------------  -->
-            <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
-            <!--  these lines if you wish to test in debug mode.                          -->
-            <!--  <input type="hidden" name="debug" value=1>                              -->
-            <!--  <input type="hidden" name="debugEmail" value="prishanf@yahoo.com">      -->
-            <!--  ----------------------------------------------------------------------  -->
             <ul>
                 <li>
                 <label for="first_name"><span>First Name<span class="required-star">*</span></span></label>
@@ -168,66 +156,35 @@
         </div>
     </body>
     <script>
-        let queryString = window.location.search;
-            console.log(queryString);
-            if(queryString){
-            let sourceElement = document.getElementById("source")
-            sourceValue = queryString.split('?')[1].split('=')[1];
-            console.log(sourceValue);
-            sourceElement.value = sourceValue;
-        }
+        
         window.addEventListener("load", () => {
+            let queryString = window.location.search;
+            if(queryString){
+                let sourceElement = document.getElementById("source")
+                sourceValue = queryString.split('?')[1].split('=')[1];
+                sourceElement.value = sourceValue;
+            }
             // Get the form element
             const form = document.getElementById("myForm");
 
             function sendDataGoogleSheet() {
               const XHR = new XMLHttpRequest();
-          
               // Bind the FormData object and the form element
               const FD = new FormData(form);
-          
               // Define what happens on successful data submission
               XHR.addEventListener("load", (event) => {
                 console.log(event.target.responseText);
               });
-          
               // Define what happens in case of error
               XHR.addEventListener("error", (event) => {
-                alert('Oops! Something went wrong.');
+                alert('Oops! Something went wrong. Please try again');
               });
-          
               // Set up our request
               XHR.open("POST", "https://script.google.com/macros/s/AKfycbxxYNCJfKgZ_CMlw-sYzU_A1fb9fWbJBaTBnEE0DDLyuehZqnVFYHdEBby0o-U-0_OB/exec");
-          
-              // The data sent is what the user provided in the form
+               // The data sent is what the user provided in the form
               XHR.send(FD);
             }
-
-            function sendDataSF() {
-                const XHR = new XMLHttpRequest();
-            
-                // Bind the FormData object and the form element
-                const FD = new FormData(form);
-            
-                // Define what happens on successful data submission
-                XHR.addEventListener("load", (event) => {
-                    console.log(event.target.responseText);
-                });
-            
-                // Define what happens in case of error
-                XHR.addEventListener("error", (event) => {
-                  alert('Oops! Something went wrong.');
-                });
-            
-                // Set up our request
-                XHR.open("POST", "https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8");
-                XHR.setRequestHeader('Access-Control-Allow-Origin', '*');
-            
-                // The data sent is what the user provided in the form
-                XHR.send(FD);
-              }
-          
-            
+ 
             const firstName = document.querySelector('#first_name');
             const lastName = document.querySelector('#last_name');
             const email = document.querySelector('#email');
@@ -240,13 +197,11 @@
                let valid = isRequired(firstName.value.trim()) && isRequired(lastName.value.trim()) && 
                         isRequired(email.value.trim()) && isRequired(phone.value.trim());
                 if(valid){
-                    console.log('Sending Data.. to Google Sheet');
                     sendDataGoogleSheet();
-                    console.log('Sending Data.. to SF');
                     form.submit();
-                   //sendDataSF();
+                }else{
+                    alert("Please complete the required Fields")
                 }
-                
             });
 
             const isRequired = value => value === '' ? false : true;
@@ -255,15 +210,12 @@
                 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email);
             };
-            
-            
             const showError = (input, message) => {
                 // get the form-field element
                 const formField = input.parentElement;
                 // add the error class
                 formField.classList.remove('success');
                 formField.classList.add('error');
-            
                 // show the error message
                 const error = formField.querySelector('small');
                 error.textContent = message;
